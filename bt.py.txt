@@ -1,0 +1,68 @@
+class Node:
+    def __init__(self, key):
+        self.left = None
+        self.right = None
+        self.value = key
+
+class BinarySearchTree:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, key):
+        if self.root is None:
+            self.root = Node(key)
+        else:
+            self._insert_recursive(self.root, key)
+
+    def _insert_recursive(self, root, key):
+        if key < root.value:
+            if root.left is None:
+                root.left = Node(key)
+            else:
+                self._insert_recursive(root.left, key)
+        else:
+            if root.right is None:
+                root.right = Node(key)
+            else:
+                self._insert_recursive(root.right, key)
+
+    def search(self, key):
+        return self._search_recursive(self.root, key)
+
+    def _search_recursive(self, root, key):
+        if root is None or root.value == key:
+            return root
+
+        if key < root.value:
+            return self._search_recursive(root.left, key)
+        else:
+            return self._search_recursive(root.right, key)
+
+    def inorder(self):
+        return self._inorder_recursive(self.root)
+
+    def _inorder_recursive(self, root):
+        result = []
+        if root:
+            result += self._inorder_recursive(root.left)
+            result.append(root.value)
+            result += self._inorder_recursive(root.right)
+        return result
+
+
+# Example usage:
+bst = BinarySearchTree()
+bst.insert(10)
+bst.insert(5)
+bst.insert(20)
+bst.insert(8)
+
+# Search for a value
+node = bst.search(8)
+if node:
+    print(f"Found {node.value}")
+else:
+    print("Value not found")
+
+# Inorder traversal (Sorted order)
+print("Inorder traversal:", bst.inorder())
